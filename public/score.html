@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Score</title>
+</head>
+<body>
+    <div>
+        <h1>Quiz Completed!</h1>
+        <p id="score"></p>
+        <p id="time"></p>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const score = params.get('score');
+        const time = params.get('time');
+
+        document.getElementById('score').textContent = `Score: ${score}`;
+        document.getElementById('time').textContent = `Time: ${time} seconds`;
+
+        // Send score to the server
+        fetch('/submit-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, score, time })
+        }).then(res => res.text()).then(data => console.log(data));
+    </script>
+</body>
+</html>
